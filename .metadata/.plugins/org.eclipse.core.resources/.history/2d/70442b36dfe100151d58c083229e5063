@@ -1,0 +1,44 @@
+package com.bean;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class DBConnecton {
+	private static Connection connection=null;
+	
+	private static String  driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+	private static final String  dbURL = "jdbc:sqlserver://localhost:1433;DatabaseName=Yhx";
+	private static final String userName = "sa";
+	private static final 	String userPwd = "950830";
+	
+	
+	
+	public Connection getConnection(){
+		try { 
+			Class.forName(driverName); 
+			connection = DriverManager.getConnection(dbURL, userName, userPwd); 
+			System.out.println( "Connection Successful! "); //如果连接成功 控制台输出Connection Successful! 
+		} catch (Exception e) { 
+			e.printStackTrace(); 
+		} 
+		return connection;
+		
+		
+	}
+	
+	public static void close(){
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
+	
+	
+	
+}

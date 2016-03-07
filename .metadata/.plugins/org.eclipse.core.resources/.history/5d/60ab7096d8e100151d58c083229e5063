@@ -1,0 +1,62 @@
+package com.jdbc.Servlet;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class AddServlet
+ */
+@WebServlet("/AddServlet")
+public class AddServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public AddServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+		response.setCharacterEncoding("text/html;charset=utf-8");
+		response.setCharacterEncoding("utf-8");
+		String no = request.getParameter("no");
+		String name = request.getParameter("name");
+		String sex = request.getParameter("sex");
+		String dept = request.getParameter("dept");
+		String sql = new String("INSERT INTO Student VALUES('"+ no +"','" + name+"','" + sex+"','" + dept+"'" + ")");
+		Connection conn = null;
+		Statement stmt = null;
+		System.out.println(no+name+sex+dept);
+		try{
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;DatabaseName=StudentDB","sa","950830");
+			System.out.println("连接成功");
+			stmt = conn.createStatement();
+			int rs = stmt.executeUpdate("INSERT INTO Student VALUES('"+ no +"','" + name+"','" + sex+"','" + dept+"'" + ")");
+			System.out.println("Add success！");
+			response.sendRedirect("/StudentMsg/main.jsp");
+			} catch (Exception e) {
+				e.printStackTrace();			}
+
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}

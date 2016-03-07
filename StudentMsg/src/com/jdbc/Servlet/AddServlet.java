@@ -1,0 +1,60 @@
+package com.jdbc.Servlet;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import com.bean.DBConnecton;
+
+
+
+@WebServlet("/AddServlet")
+public class AddServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	public AddServlet() {
+        super();
+    }
+
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		super.doPost(request, response);
+		
+
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("text/html;charset=utf-8");
+		String no = request.getParameter("no");
+		String name = request.getParameter("name");
+		String sex = request.getParameter("sex");
+		String dept = request.getParameter("dept");
+		
+		String sql = new String("insert into Student(Sno,Sname,Ssex,Sdept) values(?,?,?,?)");
+		Connection conn = null;
+		PreparedStatement ps = null; 
+		System.out.println(no+name+sex+dept);
+		try{
+			conn=DBConnecton.getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, no);
+			ps.setString(2, name);
+			ps.setString(3, sex);
+			ps.setString(4, dept);
+			ps.executeUpdate();
+			System.out.println("Add success£¡");
+			conn.close();
+			response.sendRedirect("/StudentMsg/main.jsp");
+			} catch (Exception e) {
+				e.printStackTrace();			
+			}
+	}
+
+}

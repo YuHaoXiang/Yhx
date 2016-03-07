@@ -1,0 +1,120 @@
+<%@page import="java.sql.*"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Insert title here</title>
+<style>
+    body{
+        position: absolute;
+        top:30px;
+        left: 200px;
+        background: pink;
+    }
+    td{
+        width: 70px;
+        height: 30px;
+        border:1px dashed green;
+    }
+    #tou{
+        text-align: center;
+        color: red;
+        font-size: 30px;
+    }
+    #dept{
+       width:90px;
+    }
+    #tuichu{
+      color:black;
+      font-family:"黑体";
+      float:right;
+    }
+</style>
+</head>
+<body>
+<div id="tou">欢迎进入学生信息管理系统</div>  
+<div id="tuichu">
+<input type="button" name="exit" value="退出系统" >
+</div>
+<br>
+<hr color="blue" width="700px" align="center">
+<%
+
+        String url="jdbc:sqlserver://localhost;DatabaseName=Yhx";
+        String useName="sa";
+        String password="950830";
+        String sql=null;
+        Connection conn=null;
+        PreparedStatement pstm=null;
+     
+        try{
+        	Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+    }catch(ClassNotFoundException e)
+    {
+    	out.print("加载驱动异常");
+    }
+    
+    try{
+    conn=DriverManager.getConnection(url,useName,password);
+    sql="select Sno,Sname,Ssex,Sage from Student";
+    pstm=conn.prepareStatement(sql);
+    ResultSet rs=pstm.executeQuery();
+%>
+<center >
+<table   border="1" cellspacing="0" cellpadding="0" >
+<tr>
+	<td  align="center">Sno</td>
+	<td  align="center">Sname</td>
+	<td  align="center">Ssex</td>
+	<td  align="center">Sage</td>
+	<td  align="center"colspan="2"><a href="add.jsp">添加学生</a></td>
+</tr>
+
+
+<%
+
+    while(rs.next())
+    {
+	  int id=rs.getInt(1);
+	  String name=rs.getString(2);
+	  String sex=rs.getString(3);
+	  int age=rs.getInt(4);
+	  String dept=rs.getString(5);
+    
+%>
+
+<tr>
+	<td align="center"><%=id %></td>
+	<td align="center"><%=name%></td>
+	<td align="center"><%=sex%></td>
+	<td align="center"><%=age%></td>
+	<td align="center"><%=dept%></td>
+	<td align="center"><a href="xiugai.jsp">修改</a></td>
+	<td align="center">
+<a href="DBServlet?name=<%=name %>&type=del">删除</a>
+</td>
+</tr>
+<%
+}
+    rs.close();
+    pstm.close();
+    }catch(SQLException e)
+    {
+    	out.print("出现sql异常");
+    }
+    finally{
+    	try
+    	{
+    		conn.close();
+    	}catch(Exception e)
+    	{
+    		out.print("关闭数据库异常");
+    	}
+    }
+    %>
+      </table>
+      <center>
+</body>
+</html>

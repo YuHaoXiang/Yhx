@@ -1,0 +1,9 @@
+package com.bean;
+
+public class DBConnecton {
+	private static Connection connection=null;
+	
+	
+	
+	
+}

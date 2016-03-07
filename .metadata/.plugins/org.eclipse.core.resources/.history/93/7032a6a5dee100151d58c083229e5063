@@ -1,0 +1,12 @@
+package com.bean;
+
+import java.sql.Connection;
+
+public class DBConnecton {
+	private static Connection connection=null;
+	
+	
+	
+	
+	
+}

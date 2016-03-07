@@ -1,0 +1,24 @@
+package com.bean;
+
+import java.sql.Connection;
+
+public class DBConnecton {
+	private static Connection connection=null;
+	
+	private static String  driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+	private static String  dbURL = "jdbc:sqlserver://localhost:1433;DatabaseName=Yhx";
+	private static String userName = "sa";
+	private static 	String userPwd = "950830";
+	
+	
+	
+	public Connection getConnection(){
+		
+		
+		
+		
+	}
+	
+	
+	
+}

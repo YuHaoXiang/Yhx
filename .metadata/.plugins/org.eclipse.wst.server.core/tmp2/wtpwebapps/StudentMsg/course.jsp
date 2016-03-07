@@ -1,0 +1,62 @@
+<%@page import="com.bean.DBConnecton"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<%@ page import="java.sql.*" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>学生课程表</title>
+</head>
+<body>
+<%
+	Connection conn=null;
+	Statement stmt = null;
+	ResultSet rs = null;
+	
+	try { 
+		conn = DBConnecton.getConnection(); 
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery
+		("select SC.Sno,Course.Cno,Student.Sname,Course.Cname from  Course,SC,Student where Course.Cno = SC.Cno AND   SC.Sno = Student.Sno");
+		
+	} catch (Exception e) { 
+		e.printStackTrace(); 
+	} 
+ 
+%>
+</head>
+<body>
+<center>
+<table>
+<tr>
+<td>学号
+</td>
+<td>课号
+</td>
+<td>姓名
+</td>
+<td>课名
+</td>
+</tr>
+
+<%
+while(rs.next()) {
+%>
+<tr>
+<td><%=rs.getString(1) %>
+</td>
+<td><%=rs.getString(2) %>
+</td>
+<td><%=rs.getString(3) %>
+</td>
+<td><%=rs.getString(4) %>
+</td>
+	
+</tr>
+<%
+}
+ %>
+<a href="/StudentMsg/index.jsp">返回</a>
+</body>
+</html> 

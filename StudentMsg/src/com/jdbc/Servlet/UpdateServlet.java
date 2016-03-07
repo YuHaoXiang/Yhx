@@ -1,0 +1,57 @@
+package com.jdbc.Servlet;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import com.bean.DBConnecton;
+@WebServlet("/UpdateServlet")
+public class UpdateServlet extends HttpServlet {
+	
+	private static final long serialVersionUID = 1L;
+   
+	public UpdateServlet() {
+        super();
+    }
+    
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doPost(request, response);
+	}
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
+		response.setCharacterEncoding("utf-8");
+		String no = request.getParameter("no");
+		String name = request.getParameter("name");
+		String sex = request.getParameter("sex");
+		String dept = request.getParameter("dept");
+		String sql = "update Student set Sno=?,Sname=?,Ssex=?,Sdept=? where Sno=?";
+		Connection conn = null;
+		PreparedStatement rs = null;
+		
+		conn = DBConnecton.getConnection();
+		try {
+			rs = conn.prepareStatement(sql);
+			rs.setString(1, no);
+			rs.setString(2,	name);
+			rs.setString(3, sex);
+			rs.setString(4, dept);
+			rs.setString(5, no);
+			rs.executeUpdate();
+			System.out.println("Update success£¡");
+			conn.close();
+			response.sendRedirect("/StudentMsg/main.jsp");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+}
